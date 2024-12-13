@@ -1,18 +1,38 @@
-# This workflow uses actions that are not certified by GitHub.  They are
-# provided by a third-party and are governed by separate terms of service,
-# privacy policy, and support documentation.
-#
-# This workflow will install a prebuilt Ruby version, install dependencies, and
-# run tests and linters.
-name: "Ruby on Rails CI"
+name: Ruby
+
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
+
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+    name: Build and Test
+    strategy:
+      matrix:
+        ruby:
+          - '3.3.6-2'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Install dependencies
+      run: |
+         echo 'ok'
+    - name: Test
+      run: |
+        echo 'ok'
+#        sudo apt-get update -y
+#        sudo apt-get install -y gsfonts
+#    - name: Run the default task
+#      run: bundle exec rake
     # services:
     #   postgres:
     #     image: postgres:11-alpine
@@ -25,14 +45,6 @@ jobs:
     # env:
     #   RAILS_ENV: test
     #   DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      # Add or replace dependency steps here
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@78c01b705fd9d5ad960d432d3a0cfa341d50e410 # v1.179.1
-        with:
-          bundler-cache: true
       # Add or replace database setup steps here
       # - name: Set up database schema
       #   run: bin/rails db:schema:load
@@ -40,11 +52,11 @@ jobs:
       # - name: Run tests
       #   run: bin/rake
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-        - name: test
-          run: "echo ok"
+#  lint:
+#    runs-on: ubuntu-latest
+#    steps:
+#        - name: test
+#          run: "echo ok"
       # - name: Checkout code
       #   uses: actions/checkout@v4
       # - name: Install Ruby and gems
