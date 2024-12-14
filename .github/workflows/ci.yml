@@ -19,7 +19,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1 # Specify the Ruby version directly or ensure .ruby-version file exists
+          ruby-version: .ruby-version
           bundler-cache: true
 
       # Uncomment and configure this step as needed
@@ -39,7 +39,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1 # Same note as above
+          ruby-version: .ruby-version
           bundler-cache: true
 
       # Uncomment and configure this step as needed
@@ -62,7 +62,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1 # Same note as above
+          ruby-version: .ruby-version
           bundler-cache: true
 
       - name: Run tests
