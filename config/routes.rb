@@ -11,4 +11,35 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # config/routes.rb
+
+  Rails.application.routes.draw do
+    namespace :api do
+      # User Routes
+      post 'register', to: 'users#create'
+      post 'login', to: 'sessions#create'
+      put 'users/:id/role', to: 'users#update_role'
+
+      # Spaces Routes
+      resources :spaces, only: [:index, :create, :update, :destroy] do
+        # Objects and Spots inside Spaces
+        resources :objects, only: [:index, :create]
+        resources :spots, only: [:index, :create]
+      end
+
+      # Objects Routes
+      post 'objects/delete', to: 'objects#bulk_delete'
+
+      # Spots Routes
+      post 'spots/delete', to: 'spots#bulk_delete'
+
+      # Bookings Routes
+      resources :bookings, only: [:index, :create, :destroy]
+
+      # Spots_Booking Routes (if needed for specific spot booking management)
+      resources :spots_booking, only: [:create]
+    end
+  end
+
 end
