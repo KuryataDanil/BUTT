@@ -2,7 +2,7 @@
 
 class Space < ApplicationRecord
   belongs_to :creator, class_name: "User"
-  has_many :objects, dependent: :destroy
+  has_many :space_objects, dependent: :destroy
   has_many :spots, dependent: :destroy
   has_many :bookings, dependent: :destroy
 
