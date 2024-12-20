@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       # Spaces Routes
       resources :spaces, only: [:index, :create, :update, :destroy] do
         # Objects and Spots inside Spaces
-        resources :objects, only: [:index, :create]
+        resources :space_objects, only: [:index, :create]
         resources :spots, only: [:index, :create]
       end
 
