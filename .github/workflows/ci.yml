@@ -45,7 +45,7 @@ jobs:
 
       - name: Run Docker Container
         run: |
-          docker run butt:latest
+          docker run -e SECRET_KEY_BASE=dummy butt:latest
 
   lint:
     runs-on: ubuntu-latest
