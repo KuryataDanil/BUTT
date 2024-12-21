@@ -24,12 +24,14 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      # Uncomment and configure this step as needed
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Make RuboCop executable
+        run: chmod +x bin/rubocop || echo "bin/rubocop already executable"
+
       - name: Lint code for consistent style
-        run: bin/rubocop -f github
-      
-      # - name: lint
-      #   run: echo 'lint ok'
+        run: bundle exec rubocop -f github
   
   build-docker:
     runs-on: ubuntu-latest
