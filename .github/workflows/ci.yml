@@ -22,24 +22,24 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: .ruby-version```yaml
           bundler-cache: true
 
       - name: Install dependencies
-        run: bundle install
+        run: bundle install 
 
       - name: Verify Ruby installation
         run: ruby -v
-      
-      - name: Set execute permissions for Brakeman
-        run: chmod +x bin/brakeman
 
-      # Uncomment and configure this step as needed
       - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager
-      
-      # - name: scan_ruby
-      #   run: echo 'scan_ruby ok'
+        run: |
+          if gem list --local | grep -q brakeman; then
+            bundle exec brakeman --no-pager
+          else
+            echo "Brakeman gem is not installed."
+            exit 1
+          fi
+
   
   lint:
     runs-on: ubuntu-latest
