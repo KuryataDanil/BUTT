@@ -43,7 +43,9 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -t butt:latest .
-
+      - name: Add dependent
+        run: |
+          apt-get update -qq && apt-get install -y nodejs npm && npm install
       - name: Run static site generation
         run: |
           docker run -e SECRET_KEY_BASE=dummy --rm butt:latest ./bin/rails assets:precompile
