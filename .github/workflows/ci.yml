@@ -1,8 +1,5 @@
 name: CI
 
-env:
-  DOCKER_REPO: butt
-
 on:
   pull_request:
     branches:
