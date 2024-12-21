@@ -29,9 +29,12 @@ jobs:
         run: bundle install 
 
       - name: Verify Ruby installation
-        run: ruby -v
+        run: ruby -v  
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
+      - name: Check Brakeman executable
+        run: ls -l bin
+
+      - name: Scan with Brakeman
         run: |
           if gem list --local | grep -q brakeman; then
             bundle exec brakeman --no-pager
