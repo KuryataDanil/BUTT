@@ -31,17 +31,12 @@ jobs:
       - name: Verify Ruby installation
         run: ruby -v  
 
-      - name: Check Brakeman executable
-        run: ls -l bin
+      - name: Verify Brakeman installation
+        run: gem list --local | grep 'brakeman'
 
       - name: Scan with Brakeman
         run: |
-          if gem list --local | grep -q brakeman; then
-            bundle exec brakeman --no-pager
-          else
-            echo "Brakeman gem is not installed."
-            exit 1
-          fi
+          bundle exec brakeman --no-pager || { echo "Brakeman check failed." && exit 1; }
 
   
   lint:
