@@ -3,6 +3,9 @@ name: Deploy
 on:
   workflow_dispatch:
 
+env:
+  DOCKER_REPO: butt
+  
 jobs:
   
 
