@@ -1,5 +1,8 @@
 name: CI
 
+env:
+  DOCKER_REPO: butt
+
 on:
   pull_request:
     branches:
@@ -27,7 +30,7 @@ jobs:
       #   run: bin/brakeman --no-pager
       
       - name: Echo Ok
-        run: echo ok
+        run: echo 'scan_ruby ok'
   
   lint:
     runs-on: ubuntu-latest
@@ -47,35 +50,38 @@ jobs:
       #   run: bin/rubocop -f github
       
       - name: Echo Ok
-        run: echo ok
-
-  test:
+        run: echo 'lint ok'
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
-
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-          # Uncomment and set the appropriate Redis URL if needed
-          # REDIS_URL: redis://localhost:6379/0
-        run: echo ok # Replace with actual test command 
-
-      - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
-        if: failure()
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
-          name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
-          if-no-files-found: ignore
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:latest .
+          docker push ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:latest
+  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Pull Docker Image
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:latest
+
+      - name: Run tests in Docker
+        run: |
+          docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:latest bundle exec rspec
+  
