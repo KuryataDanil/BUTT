@@ -3,38 +3,17 @@ name: CI
 on:
   pull_request:
     branches:
-      - master
+      - '*'
   push:
     branches: 
-      - master
+      - '*'
 
 env:
   DOCKER_REPO: butt
 
 jobs:
-  scan_ruby:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      # Uncomment and configure this step as needed
-      # - name: Scan for common Rails security vulnerabilities using static analysis
-      #   run: bin/brakeman --no-pager
-      
-      - name: scan_ruby
-        run: echo 'scan_ruby ok'
-  
   lint:
     runs-on: ubuntu-latest
-    needs: scan_ruby
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -45,12 +24,14 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      # Uncomment and configure this step as needed
-      # - name: Lint code for consistent style
-      #   run: bin/rubocop -f github
-      
-      - name: lint
-        run: echo 'lint ok'
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Make RuboCop executable
+        run: chmod +x bin/rubocop || echo "bin/rubocop already executable"
+
+      - name: Lint code for consistent style
+        run: bundle exec rubocop -f github
   
   build-docker:
     runs-on: ubuntu-latest
