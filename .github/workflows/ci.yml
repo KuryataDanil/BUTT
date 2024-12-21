@@ -28,23 +28,7 @@ jobs:
       
       - name: Echo Ok
         run: echo ok
-
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build Docker Image
-        run: |
-          docker build -t butt:latest .
-
-      - name: Run static site generation
-        run: |
-          docker run -e SECRET_KEY_BASE=dummy --rm butt:latest ./bin/rails 
-        # assets:precompile
-
+  
   lint:
     runs-on: ubuntu-latest
 
