@@ -25,9 +25,15 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Verify Ruby installation
+        run: ruby -v
+      
       - name: Set execute permissions for Brakeman
         run: chmod +x bin/brakeman
-        
+
       # Uncomment and configure this step as needed
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
