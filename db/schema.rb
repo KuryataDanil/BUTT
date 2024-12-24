@@ -24,18 +24,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_20_170457) do
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
-  create_table "objects", force: :cascade do |t|
-    t.integer "space_id"
-    t.float "x"
-    t.float "y"
-    t.float "size_x"
-    t.float "size_y"
-    t.float "angle"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["space_id"], name: "index_objects_on_space_id"
-  end
-
   create_table "space_objects", force: :cascade do |t|
     t.integer "space_id"
     t.float "x"
@@ -93,7 +81,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_20_170457) do
 
   add_foreign_key "bookings", "spaces"
   add_foreign_key "bookings", "users"
-  add_foreign_key "objects", "spaces"
   add_foreign_key "space_objects", "spaces"
   add_foreign_key "spaces", "users", column: "creator_id"
   add_foreign_key "spots", "spaces"
