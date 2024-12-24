@@ -1,16 +1,22 @@
 # frozen_string_literal: true
 
-class Api::UsersController < ApplicationController
+class UsersController < ApplicationController
+  def new_user; end
+
   # POST /api/register
   def create
-    user = User.new(user_params)
+    user = User.new(
+      name: params[:name],
+      email: params[:email],
+      password: params[:password]
+    )
+
     if user.save
       render json: { message: 'User created successfully', user: user }, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
   end
-
   # PUT /api/users/:id/role
   def update_role
     user = User.find(params[:id])
