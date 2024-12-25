@@ -39,3 +39,7 @@
 /node_modules
 
 .idea
+
+# Ignore Parcel cache
+.parcel-cache/
+
