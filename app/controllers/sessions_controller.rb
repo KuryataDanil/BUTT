@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::SessionsController < ApplicationController
+class SessionsController < ApplicationController
   # POST /api/login
   def create
     user = User.find_by(email: params[:email])

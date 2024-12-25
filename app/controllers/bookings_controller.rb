@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::BookingsController < ApplicationController
+class BookingsController < ApplicationController
   # GET /api/bookings
   def index
     bookings = Booking.where(user_id: params[:user_id])

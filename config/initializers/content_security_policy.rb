@@ -23,3 +23,10 @@
 #   # Report violations without enforcing the policy.
 #   # config.content_security_policy_report_only = true
 # end
+
+if Rails.env.test?
+  Rails.application.config.content_security_policy do |policy|
+    # Отключаем политику для тестов
+    policy.default_src :none
+  end
+end

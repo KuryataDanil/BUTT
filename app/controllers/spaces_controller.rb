@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::SpacesController < ApplicationController
+class SpacesController < ApplicationController
   # GET /api/spaces
   def index
     spaces = Space.all

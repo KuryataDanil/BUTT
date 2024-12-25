@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class Api::ObjectsController < ApplicationController
+class ObjectsController < ApplicationController
   # GET /api/spaces/:space_id/objects
   def index
     space = Space.find(params[:space_id])
-    render json: space.objects, status: :ok
+    render json: space.space_objects, status: :ok
   end
 
   # POST /api/spaces/:space_id/objects

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::SpotsBookingController < ApplicationController
+class SpotsBookingController < ApplicationController
   # POST /api/spots_booking
   def create
     spots_booking = SpotsBooking.new(spots_booking_params)

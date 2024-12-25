@@ -2,7 +2,7 @@
 
 require 'minitest/autorun'
 
-class BookingsControllerTest < Minitest::Test
+class BookingsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = User.create!(name: "User", email: "user@example.com", password: "password", role: "user")
     @space = Space.create!(name: "Test Space", opening_time: "08:00", closing_time: "20:00", creator: @user)
