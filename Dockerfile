@@ -40,7 +40,9 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
     /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
     rm -rf /tmp/node-build-master
 
+RUN apt-get update && apt-get install -y nodejs npm
 RUN npm install -g npm
+
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
