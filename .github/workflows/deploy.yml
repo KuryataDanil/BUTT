@@ -71,7 +71,7 @@ jobs:
 
       - name: Build and Deploy Static Files
         run: |
-          docker run --rm -v ${{ github.workspace }}/public:/rails/public ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:latest ./bin/rails assets:precompile
+          docker run --rm -e SECRET_KEY_BASE=dummy -v ${{ github.workspace }}/public:/rails/public ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:latest ./bin/rails assets:precompile
           mv ./public ./public-html
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
