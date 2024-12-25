@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::SpotsController < ApplicationController
+class SpotsController < ApplicationController
   # GET /api/spaces/:space_id/spots
   def index
     space = Space.find(params[:space_id])
