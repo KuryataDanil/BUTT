@@ -21,10 +21,10 @@ RUN apt-get update -qq && \
 
 
 # Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
+ENV RAILS_ENV="development" \
+    BUNDLE_DEPLOYMENT="0" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="production"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -56,9 +56,6 @@ RUN bundle install && \
 #RUN yarn install --frozen-lockfile
 COPY package.json package-lock.json ./
 RUN npm install --frozen-lockfile
-
-RUN SECRET_KEY_BASE=$(rails secret)
-ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 
 # Copy application code
 COPY . .
