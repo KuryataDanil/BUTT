@@ -68,7 +68,7 @@ jobs:
       - name: Run tests in Docker
         run: |
           echo 'Run tests in Docker' 
-          docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:latest bundle exec rspec
+          docker run --rm -e SECRET_KEY_BASE=dummy ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:latest bundle exec rspec
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
