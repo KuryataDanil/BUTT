@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  def new_user; end
+
+  # GET /new
+  def new; end
 
   # POST /api/register
   def create
@@ -12,7 +14,9 @@ class UsersController < ApplicationController
     )
 
     if user.save
-      render json: { message: 'User created successfully', user: user }, status: :created
+      session[:user_id] = user.id
+      puts "Сессия установлена: #{session[:user_id]}" # Проверяем ID пользователя в сессии
+      redirect_to dashboard_path, notice: "Добро пожаловать!", status: :see_other
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end

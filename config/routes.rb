@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "dashboard/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -11,21 +12,26 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  get "user", to: "users#new_user"
-  root "users#new_user"
+  get "user", to: "users#new"
+  root "home#index"
   # config/routes.rb
 
   # User Routes
   post "register", to: "users#create"
-  post "login", to: "sessions#create"
   put "users/:id/role", to: "users#update_role"
 
+  get "/login", to: "sessions#new", as: :login
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy", as: :logout
+  get "/dashboard", to: "dashboard#index", as: :dashboard
+
+  resources :users, only: [:new, :create]
+
   # Spaces Routes
-  resources :spaces, only: [:index, :create, :update, :destroy] do
-    # Objects and Spots inside Spaces
-    resources :objects, only: [:index, :create]
-    resources :spots, only: [:index, :create]
-  end
+  resources :spaces, only: [:new, :create, :show, :edit, :update, :destroy]
+
+  resources :objects, only: [:index, :create]
+  resources :spots, only: [:index, :create]
 
   # Objects Routes
   post "objects/delete", to: "objects#bulk_delete"

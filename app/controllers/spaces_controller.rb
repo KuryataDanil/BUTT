@@ -1,33 +1,42 @@
 # frozen_string_literal: true
 
 class SpacesController < ApplicationController
-  # GET /api/spaces
-  def index
-    spaces = Space.all
-    render json: spaces, status: :ok
+  before_action :set_space, only: [:show, :edit, :update]
+  before_action :authorize_creator, only: [:edit, :update]
+
+  # Метод для отображения пространства
+  def show
+    # @space уже загружен с помощью before_action
   end
 
-  # POST /api/spaces
+  # Метод для редактирования пространства
+  def edit
+    # @space уже загружен с помощью before_action
+  end
+
+  # POST /spaces
   def create
     space = Space.new(space_params)
+    space.creator_id = current_user.id
     if space.save
-      render json: { message: 'Space created successfully', space: space }, status: :created
+      redirect_to dashboard_path, notice: "Добро пожаловать!", status: :see_other
     else
       render json: { errors: space.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # PUT /api/spaces/:id
+
+  # PUT /spaces/:id
   def update
     space = Space.find(params[:id])
     if space.update(space_params)
-      render json: { message: 'Space updated successfully', space: space }, status: :ok
+      redirect_to dashboard_path, notice: "Добро пожаловать!", status: :ok
     else
       render json: { errors: space.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # DELETE /api/spaces/:id
+  # DELETE /spaces/:id
   def destroy
     space = Space.find(params[:id])
     space.destroy
@@ -36,7 +45,17 @@ class SpacesController < ApplicationController
 
   private
 
+  def set_space
+    @space = Space.find(params[:id])
+  end
+
+  def authorize_creator
+    unless @space.creator_id == current_user.id
+      redirect_to space_path(@space), alert: "У вас нет прав для редактирования этого пространства."
+    end
+  end
+
   def space_params
-    params.require(:space).permit(:name, :description, :opening_time, :closing_time, :creator_id)
+    params.require(:space).permit(:name, :description, :opening_time, :closing_time)
   end
 end

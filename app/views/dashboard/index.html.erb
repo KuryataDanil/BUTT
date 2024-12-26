@@ -1,0 +1,29 @@
+<h1>Dashboard</h1>
+
+<p>Добро пожаловать, <%= @user.name %>!</p>
+
+<h2>Ваши бронирования:</h2>
+<% if @bookings.any? %>
+  <ul>
+    <% @bookings.each do |booking| %>
+      <li>
+        Бронирование в "<%= booking.space.name %>" с <%= booking.start_time %> до <%= booking.end_time %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>У вас пока нет бронирований.</p>
+<% end %>
+
+<h2>Ваши пространства:</h2>
+<% if @spaces.any? %>
+  <ul>
+    <% @spaces.each do |space| %>
+      <li><%= link_to space.name, space_path(space) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Вы ещё не создали ни одного пространства.</p>
+<% end %>
+
+<%= link_to 'Создать новое пространство', new_space_path %>
