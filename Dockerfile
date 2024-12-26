@@ -19,7 +19,6 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-RUN SECRET_KEY_BASE=$(rails secret) && echo "export SECRET_KEY_BASE=$SECRET_KEY_BASE" >> ~/.bashrc
 
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -57,6 +56,8 @@ RUN bundle install && \
 #RUN yarn install --frozen-lockfile
 COPY package.json package-lock.json ./
 RUN npm install --frozen-lockfile
+
+RUN SECRET_KEY_BASE=$(rails secret) && echo "export SECRET_KEY_BASE=$SECRET_KEY_BASE" >> ~/.bashrc
 
 # Copy application code
 COPY . .
