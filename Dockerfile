@@ -58,7 +58,7 @@ COPY package.json package-lock.json ./
 RUN npm install --frozen-lockfile
 
 RUN SECRET_KEY_BASE=$(rails secret)
-ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
+ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 
 # Copy application code
 COPY . .
