@@ -1,0 +1,23 @@
+<h1>Create New Space</h1>
+
+<%= form_with model: @space, local: true do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+  <div>
+    <%= form.label :opening_time %>
+    <%= form.time_field :opening_time %>
+  </div>
+  <div>
+    <%= form.label :closing_time %>
+    <%= form.time_field :closing_time %>
+  </div>
+  <div>
+    <%= form.submit "Create Space" %>
+  </div>
+<% end %>

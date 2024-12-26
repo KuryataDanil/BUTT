@@ -1,0 +1,19 @@
+<h1>Add Spot</h1>
+
+<%= form_with model: @spot, url: space_spots_path(@space), local: true do |form| %>
+  <div>
+    <%= form.label :num, "Spot Number" %>
+    <%= form.number_field :num %>
+  </div>
+  <div>
+    <%= form.label :price %>
+    <%= form.number_field :price %>
+  </div>
+  <div>
+    <%= form.label :size %>
+    <%= form.text_field :size %>
+  </div>
+  <div>
+    <%= form.submit "Add Spot" %>
+  </div>
+<% end %>

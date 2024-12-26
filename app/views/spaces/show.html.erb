@@ -1,0 +1,14 @@
+<h1><%= @space.name %></h1>
+<p><%= @space.description %></p>
+
+<h2>Spots</h2>
+<%= link_to "Add Spot", new_space_spot_path(@space) %>
+
+<% @space.spots.each do |spot| %>
+  <div>
+    <p>Spot #: <%= spot.num %></p>
+    <p>Price: <%= spot.price %></p>
+  </div>
+<% end %>
+
+<%= link_to "Back to Spaces", spaces_path %>

@@ -1,0 +1,11 @@
+<h1>Spaces</h1>
+
+<%= link_to "Create New Space", new_space_path %>
+
+<% @spaces.each do |space| %>
+  <div>
+    <h2><%= space.name %></h2>
+    <p><%= space.description %></p>
+    <%= link_to "View Details", space_path(space) %>
+  </div>
+<% end %>

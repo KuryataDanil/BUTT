@@ -1,0 +1,15 @@
+<h1>New Booking</h1>
+
+<%= form_with model: @booking, url: space_bookings_path(@space), local: true do |form| %>
+  <div>
+    <%= form.label :start_time %>
+    <%= form.datetime_local_field :start_time %>
+  </div>
+  <div>
+    <%= form.label :end_time %>
+    <%= form.datetime_local_field :end_time %>
+  </div>
+  <div>
+    <%= form.submit "Book Space" %>
+  </div>
+<% end %>
