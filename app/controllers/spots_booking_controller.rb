@@ -5,7 +5,8 @@ class SpotsBookingController < ApplicationController
   def create
     spots_booking = SpotsBooking.new(spots_booking_params)
     if spots_booking.save
-      render json: { message: 'Spot linked to booking successfully', spots_booking: spots_booking }, status: :created
+      Spot.find(spots_booking_params[:spot_id]).destroy!
+      redirect_to dashboard_path, notice: "Добро пожаловать!"#, status: :ok
     else
       render json: { errors: spots_booking.errors.full_messages }, status: :unprocessable_entity
     end

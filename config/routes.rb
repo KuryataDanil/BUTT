@@ -39,6 +39,8 @@ Rails.application.routes.draw do
 
 
 
+
+
   # Objects Routes
   post "objects/delete", to: "objects#bulk_delete"
 
@@ -46,7 +48,7 @@ Rails.application.routes.draw do
   post "spots/delete", to: "spots#bulk_delete"
 
   # Bookings Routes
-  resources :bookings, only: [:index, :create, :destroy]
+  resources :bookings, only: [:new, :index, :create, :destroy]
 
   # Spots_Booking Routes (if needed for specific spot booking management)
   resources :spots_booking, only: [:create]

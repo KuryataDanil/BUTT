@@ -1,15 +1,17 @@
-<h1>New Booking</h1>
+<div class="mt-28">
+  <h1>New Booking</h1>
 
-<%= form_with model: @booking, url: space_bookings_path(@space), local: true do |form| %>
-  <div>
-    <%= form.label :start_time %>
-    <%= form.datetime_local_field :start_time %>
-  </div>
-  <div>
-    <%= form.label :end_time %>
-    <%= form.datetime_local_field :end_time %>
-  </div>
-  <div>
-    <%= form.submit "Book Space" %>
-  </div>
-<% end %>
+  <%= form_with model: @booking, url: space_bookings_path(@space, spot_id: @spot.id), local: true do |form| %>
+    <div>
+      <%= form.label :start_time %>
+      <%= form.datetime_local_field :start_time %>
+    </div>
+    <div>
+      <%= form.label :end_time %>
+      <%= form.datetime_local_field :end_time %>
+    </div>
+    <div>
+      <%= form.submit "Book Space" %>
+    </div>
+  <% end %>
+</div>
