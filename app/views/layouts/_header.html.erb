@@ -1,0 +1,17 @@
+<header class="fixed top-0 w-full bg-gray-900 text-white py-4 px-4 z-50">
+  <nav class="max-w-7xl mx-auto flex justify-between items-center">
+    <%= link_to "BUTT", root_path, class: "text-3xl font-bold text-brand-green hover:text-white" %>
+    <div class="flex gap-8">
+      <% if logged_in? %>
+        <p>Hello, <%= current_user.name %>!</p>
+        <%#= link_to "View Spaces", spaces_path, class: "text-white hover:text-brand-green transition-colors" %>
+        <%#= link_to "Your Bookings", bookings_path, class: "text-white hover:text-brand-green transition-colors" %>
+        <%= link_to "Profile", dashboard_path, class: "text-white hover:text-brand-green transition-colors" %>
+        <%= link_to "Logout", logout_path, method: :get, class: "text-white hover:text-brand-green transition-colors" %>
+      <% else %>
+        <%= link_to "Регистрация", new_user_path, class: "text-white hover:text-brand-green transition-colors" %>
+        <%= link_to "Войти", login_path, class: "text-white hover:text-brand-green transition-colors" %>
+      <% end %>
+    </div>
+  </nav>
+</header>

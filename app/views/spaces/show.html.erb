@@ -1,0 +1,74 @@
+<div class="bg-white mt-20 rounded-lg shadow-lg p-8 mb-8">
+  <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"><%= @space.name %></h1>
+  <p class="text-lg sm:text-xl text-gray-700 mb-8"><%= @space.description %></p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-8 sm:mb-12">
+    <!-- Время работы -->
+    <div class="bg-gray-50 p-4 sm:p-6 rounded-lg">
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Рабочие часы</h2>
+      <p class="text-gray-800"><%= @space.opening_time.strftime("%H:%M") %> - <%= @space.closing_time.strftime("%H:%M") %></p>
+    </div>
+
+    <!-- Управление -->
+    <% if @space.creator_id == current_user.id %>
+      <div class="bg-gray-50 p-4 sm:p-6 rounded-lg">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Управление пространством</h2>
+        <%= link_to 'Редактировать пространство', edit_space_path(@space),
+                    class: "mt-4 inline-block px-6 py-3 bg-brand-green text-gray-900 font-bold rounded-lg hover:scale-105 transition-transform" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Доступные места -->
+  <div class="bg-gray-50 p-6 rounded-lg">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">Доступные места</h2>
+    <% if @spots.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @spots.each do |spot| %>
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="font-bold text-lg mb-2">Место №<%= spot.num %></h3>
+            <p class="text-gray-600">Размер: <%= spot.size %></p>
+            <p class="text-gray-600">Цена: <%= spot.price %> руб</p>
+            <%= link_to 'Забронировать', new_space_booking_path(space_id: @space.id, spot_id: spot.id),
+                        class: "mt-4 inline-block px-6 py-3 bg-brand-green text-gray-900 font-bold rounded-lg hover:scale-105 transition-transform" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-600">Нет доступных мест для бронирования.</p>
+    <% end %>
+  </div>
+
+  <div class="mt-8 text-center">
+    <%= link_to 'Назад на главную страницу', dashboard_path,
+                class: "mt-4 inline-block px-6 py-3 bg-gray-300 text-gray-900 font-bold rounded-lg hover:scale-105 transition-transform" %>
+  </div>
+</div>
+
+
+<!--<h1><%#= @space.name %></h1>-->
+
+<!--<p><%#= @space.description %></p>-->
+<!--<p>Рабочие часы: <%#= @space.opening_time.strftime("%H:%M") %> - <%#= @space.closing_time.strftime("%H:%M") %></p>-->
+
+<%# if @space.creator_id == current_user.id %>
+  <%#= link_to "Редактировать пространство", edit_space_path(@space) %>
+<%# end %>
+
+<!--<h2>Доступные места:</h2>-->
+<%# if @spots.any? %>
+<!--  <ul>-->
+    <%# @spots.each do |spot| %>
+<!--      <li>-->
+<!--        Место №<%#= spot.num %> <br>-->
+<!--        Размер: <%#= spot.size %> <br>-->
+<!--        Цена: <%#= spot.price %> <br>-->
+        <%#= link_to "Забронировать это место", new_space_booking_path(space_id: @space.id, spot_id: spot.id) %>
+<!--      </li>-->
+    <%# end %>
+<!--  </ul>-->
+<%# else %>
+<!--  <p>Нет доступных мест для бронирования.</p>-->
+<%# end %>
+
+<%#= link_to "Назад на главную страницу", dashboard_path %>

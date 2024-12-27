@@ -9,4 +9,6 @@ class Space < ApplicationRecord
   validates :name, presence: true
   validates :opening_time, presence: true
   validates :closing_time, presence: true
+
+  accepts_nested_attributes_for :spots, allow_destroy: true
 end

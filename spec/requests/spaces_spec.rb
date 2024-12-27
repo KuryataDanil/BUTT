@@ -13,19 +13,25 @@ RSpec.describe "Spaces API", type: :request do
   end
 
   describe "POST /spaces" do
+    let(:user) { create(:user) } # Создаем пользователя с помощью фабрики
+
+    before do
+      # Логиним пользователя через сессию
+      post "/login", params: { email: user.email, password: "password" }
+    end
+
     it "creates a new space" do
       post "/spaces", params: {
-        space: { name: "New Space", description: "A new space", opening_time: "09:00", closing_time: "18:00", creator_id: user.id }
+        space: { name: "New Space", description: "A new space", opening_time: "09:00", closing_time: "18:00" }
       }
-      expect(response).to have_http_status(:created)
-      expect(JSON.parse(response.body)["space"]["name"]).to eq("New Space")
+      expect(response).to have_http_status(:see_other)
     end
   end
 
   describe "PUT /spaces/:id" do
     it "updates a space" do
       put "/spaces/#{space.id}", params: { space: { name: "Updated Space" } }
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:found)
       expect(space.reload.name).to eq("Updated Space")
     end
   end

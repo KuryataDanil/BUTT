@@ -1,0 +1,165 @@
+<div class="bg-white mt-20 rounded-lg shadow-lg p-8 mb-8">
+  <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Личный кабинет</h1>
+  <p class="text-lg sm:text-xl text-gray-700 mb-8">Добро пожаловать, <%= @user.name %>!</p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-8 sm:mb-12">
+    <!-- Ваши бронирования -->
+    <div class="bg-gray-50 p-4 sm:p-6 rounded-lg">
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Ваши бронирования</h2>
+      <% if @bookings.any? %>
+        <div class="space-y-4">
+          <% @bookings.group_by(&:space_id).each do |space_id, bookings| %>
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+              <% space = bookings.first.space %>
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl text-white font-semibold">
+                  Бронирование в "<%= space.name %>"
+                </h2>
+                <span class="text-sm text-gray-400">
+                  <%= bookings.map(&:spots).flatten.uniq { |spot| spot.id }.count %> мест(а) забронировано
+                </span>
+              </div>
+
+              <!-- Список всех мест пространства -->
+              <div class="space-y-4">
+                <% current_user_booked_spots = bookings.select { |b| b.user_id == current_user.id }
+                                                       .map(&:spots)
+                                                       .flatten %>
+
+                <% current_user_booked_spots.each do |spot| %>
+                  <div class="flex justify-between items-center bg-gray-700 p-4 rounded-lg">
+                    <div>
+                      <p class="text-sm text-gray-400">Номер места:</p>
+                      <p class="text-lg text-brand-green font-medium">
+                        <%= spot.num %>
+                      </p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-400">Статус:</p>
+                      <p class="text-lg text-brand-green font-medium">
+                        <%= number_to_currency(spot.price, unit: "₽") %>
+                      </p>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+
+              <!-- Время бронирования -->
+              <div class="mt-6 border-t border-gray-700 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-400">Начало:</p>
+                  <p class="text-lg text-brand-green font-medium">
+                    <%= l(bookings.map(&:start_time).min, format: :long) %>
+                  </p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">Окончание:</p>
+                  <p class="text-lg text-brand-green font-medium">
+                    <%= l(bookings.map(&:end_time).max, format: :long) %>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Суммарная стоимость -->
+              <div class="mt-6 border-t border-gray-700 pt-4 flex justify-between items-center">
+                <p class="text-lg text-white">Общая стоимость:</p>
+                <p class="text-2xl text-brand-green font-bold">
+                  <%= number_to_currency(bookings.map(&:spots).flatten.sum(&:price), unit: "₽") %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-600">У вас пока нет бронирований.</p>
+      <% end %>
+    </div>
+
+    <!-- Ваши пространства -->
+    <div class="bg-gray-50 p-4 sm:p-6 rounded-lg">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Ваши пространства</h2>
+      <% if @spaces.any? %>
+        <div class="space-y-4">
+          <% @spaces.each do |space| %>
+            <div class="bg-white p-4 rounded-lg shadow">
+              <%= link_to space.name, space_path(space), class: "text-gray-800 hover:text-brand-green" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-600">Вы ещё не создали ни одного пространства.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Доступные пространства -->
+  <div class="bg-gray-50 p-6 rounded-lg">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-900">Список доступных пространств</h2>
+      <% if @role == "admin" %>
+        <%= link_to 'Создать новое пространство', new_space_path, class: "px-6 py-3 bg-brand-green text-gray-900 font-bold rounded-lg hover:scale-105 transition-transform" %>
+      <% end %>
+      </div>
+    <% if @available_spaces.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @available_spaces.each do |space| %>
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="font-bold text-lg mb-2">
+              <%= link_to space.name, space_path(space), class: "text-gray-800 hover:text-brand-green" %>
+            </h3>
+            <p class="text-gray-600"><%= space.description %></p>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-600">Нет доступных пространств для бронирования.</p>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+<!--<h1>Dashboard</h1>-->
+
+<!--<p>Добро пожаловать, <%#= @user.name %>!</p>-->
+
+<!--<h2>Ваши бронирования:</h2>-->
+<%# if @bookings.any? %>
+<!--  <ul>-->
+    <%# @bookings.each do |booking| %>
+<!--      <li>-->
+<!--        Бронирование в "<%#= booking.space.name %>" с <%#= booking.start_time %> до <%#= booking.end_time %>-->
+<!--      </li>-->
+    <%# end %>
+<!--  </ul>-->
+<%# else %>
+<!--  <p>У вас пока нет бронирований.</p>-->
+<%# end %>
+
+<!--<h2>Ваши пространства:</h2>-->
+<%# if @spaces.any? %>
+<!--  <ul>-->
+    <%# @spaces.each do |space| %>
+<!--      <li><%#= link_to space.name, space_path(space) %></li>-->
+    <%# end %>
+<!--  </ul>-->
+<%# else %>
+<!--  <p>Вы ещё не создали ни одного пространства.</p>-->
+<%# end %>
+
+<!--<h2>Список доступных пространств:</h2>-->
+<%# if @available_spaces.any? %>
+<!--  <ul>-->
+    <%# @available_spaces.each do |space| %>
+<!--      <li>-->
+<!--        <h3><%#= link_to space.name, space_path(space) %></h3>-->
+<!--        <p><%#= space.description %></p>-->
+<!--      </li>-->
+    <%# end %>
+<!--  </ul>-->
+<%# else %>
+<!--  <p>Нет доступных пространств для бронирования.</p>-->
+<%# end %>
+
+<%#= link_to 'Создать новое пространство', new_space_path %>

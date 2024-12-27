@@ -1,0 +1,21 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+	<title>Новый проект</title>
+	<defs>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(20,0,0,20,190,200)">
+			<stop offset="0" stop-color="#111827"/>
+			<stop offset="1" stop-color="#0ff880"/>
+		</linearGradient>
+		<linearGradient id="g2" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(20,0,0,20,190,200)">
+			<stop offset="0" stop-color="#111827"/>
+			<stop offset="1" stop-color="#0ff880"/>
+		</linearGradient>
+	</defs>
+	<style>
+		.s0 { fill: #0ff880 } 
+		.s1 { fill: url(#g1) } 
+		.s2 { fill: url(#g2) } 
+	</style>
+	<path id="Background" class="s0" d=""/>
+	<path id="форма 7" class="s1" d="m200 400c-110.6 0-200-89.4-200-200 0-110.6 89.4-200 200-200 110.6 0 200 89.4 200 200 0 110.6-89.4 200-200 200z"/>
+	<path id="форма 8" class="s2" d="m518 887c-110.6 0-200-89.4-200-200 0-110.6 89.4-200 200-200 110.6 0 200 89.4 200 200 0 110.6-89.4 200-200 200z"/>
+</svg>
