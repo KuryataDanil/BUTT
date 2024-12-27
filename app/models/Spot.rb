@@ -5,5 +5,5 @@ class Spot < ApplicationRecord
   has_many :spots_bookings, dependent: :destroy
   has_many :bookings, through: :spots_bookings
 
-  validates :x, :y, :size, :num, :price, :time, :time_measure, presence: true
+  validates :num, :price, presence: true
 end

@@ -6,6 +6,9 @@ class SpacesController < ApplicationController
   def edit
     # @space уже установлен в set_space\
     @space_id = @space.id
+    if @space.spots.empty?
+      @space.spots.build
+    end
   end
 
 
@@ -21,9 +24,10 @@ class SpacesController < ApplicationController
 
   # POST /spaces
   def create
-    space = Space.new(space_params)
+    space = Space.new(space_params.except(:spots))
     space.creator_id = current_user.id
     if space.save
+      # create_spots(space, space_params[:spots]) if space_params[:spots].present?
       redirect_to dashboard_path, notice: "Добро пожаловать!", status: :see_other
     else
       render json: { errors: space.errors.full_messages }, status: :unprocessable_entity
@@ -61,6 +65,8 @@ class SpacesController < ApplicationController
   end
 
   def space_params
-    params.require(:space).permit(:name, :description, :opening_time, :closing_time)
+    params.require(:space).permit(:name, :description, :opening_time, :closing_time, spots_attributes: [:id, :num, :price, :_destroy])
   end
+
+
 end
