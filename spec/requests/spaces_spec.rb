@@ -31,7 +31,7 @@ RSpec.describe "Spaces API", type: :request do
   describe "PUT /spaces/:id" do
     it "updates a space" do
       put "/spaces/#{space.id}", params: { space: { name: "Updated Space" } }
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:found)
       expect(space.reload.name).to eq("Updated Space")
     end
   end

@@ -6,5 +6,6 @@ class DashboardController < ApplicationController
     @user = current_user
     @bookings = @user.bookings
     @spaces = Space.where(creator_id: @user.id)
+    @available_spaces = Space.all # Все пространства для бронирования
   end
 end

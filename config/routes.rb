@@ -27,11 +27,17 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create]
 
-  # Spaces Routes
-  resources :spaces, only: [:new, :create, :show, :edit, :update, :destroy]
 
-  resources :objects, only: [:index, :create]
-  resources :spots, only: [:index, :create]
+  # Spaces Routes
+  resources :spaces, only: [:index, :new, :edit, :create, :update, :show, :destroy] do
+    resources :objects, only: [:index, :create]
+    resources :spots, only: [:index, :create]
+    resources :bookings, only: [:new, :create]
+  end
+
+
+
+
 
   # Objects Routes
   post "objects/delete", to: "objects#bulk_delete"
