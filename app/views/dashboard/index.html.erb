@@ -22,19 +22,22 @@
 
               <!-- Список всех мест пространства -->
               <div class="space-y-4">
-                <% space.spots.each do |spot| %>
-                  <% booking_spot = bookings.map(&:spots).flatten.find { |s| s.id == spot.id } %>
+                <% current_user_booked_spots = bookings.select { |b| b.user_id == current_user.id }
+                                                       .map(&:spots)
+                                                       .flatten %>
+
+                <% current_user_booked_spots.each do |spot| %>
                   <div class="flex justify-between items-center bg-gray-700 p-4 rounded-lg">
                     <div>
                       <p class="text-sm text-gray-400">Номер места:</p>
-                      <p class="text-lg <%= booking_spot ? 'text-brand-green' : 'text-gray-400' %> font-medium">
+                      <p class="text-lg text-brand-green font-medium">
                         <%= spot.num %>
                       </p>
                     </div>
                     <div>
                       <p class="text-sm text-gray-400">Статус:</p>
-                      <p class="text-lg <%= booking_spot ? 'text-brand-green' : 'text-gray-400' %> font-medium">
-                        <%= booking_spot ? number_to_currency(spot.price, unit: "₽") : "Свободно" %>
+                      <p class="text-lg text-brand-green font-medium">
+                        <%= number_to_currency(spot.price, unit: "₽") %>
                       </p>
                     </div>
                   </div>

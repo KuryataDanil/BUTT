@@ -14,7 +14,13 @@ class SpacesController < ApplicationController
 
   # Метод для отображения пространства
   def show
-    @spots = @space.spots # Загружаем все места, связанные с этим пространством
+    # Находим все забронированные места текущего пользователя
+    booked_spot_ids = Spot.joins(spots_bookings: :booking)
+                          .where(bookings: { user_id: current_user.id })
+                          .pluck(:id)
+
+    # Загружаем только те места, которые не входят в список забронированных
+    @spots = @space.spots.where.not(id: booked_spot_ids)
   end
 
   def index
