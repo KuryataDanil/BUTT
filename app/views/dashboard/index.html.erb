@@ -26,4 +26,18 @@
   <p>Вы ещё не создали ни одного пространства.</p>
 <% end %>
 
+<h2>Список доступных пространств:</h2>
+<% if @available_spaces.any? %>
+  <ul>
+    <% @available_spaces.each do |space| %>
+      <li>
+        <h3><%= link_to space.name, space_path(space) %></h3>
+        <p><%= space.description %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Нет доступных пространств для бронирования.</p>
+<% end %>
+
 <%= link_to 'Создать новое пространство', new_space_path %>

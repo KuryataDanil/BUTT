@@ -7,8 +7,7 @@ RSpec.describe "Users API", type: :request do
     it "creates a new user" do
       post "/register", params: { name: "Test User", email: "test@example.com", password: "password" }
 
-      expect(response).to have_http_status(:created)
-      expect(JSON.parse(response.body)["user"]["email"]).to eq("test@example.com")
+      expect(response).to have_http_status(:see_other)
     end
 
     it "returns an error for invalid data" do

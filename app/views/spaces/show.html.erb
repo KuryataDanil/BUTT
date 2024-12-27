@@ -6,4 +6,21 @@
 <% if @space.creator_id == current_user.id %>
   <%= link_to "Редактировать пространство", edit_space_path(@space) %>
 <% end %>
+
+<h2>Доступные места:</h2>
+<% if @spots.any? %>
+  <ul>
+    <% @spots.each do |spot| %>
+      <li>
+        Место №<%= spot.num %> <br>
+        Размер: <%= spot.size %> <br>
+        Цена: <%= spot.price %> <br>
+        <%= link_to "Забронировать это место", new_space_booking_path(space_id: @space.id, spot_id: spot.id) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Нет доступных мест для бронирования.</p>
+<% end %>
+
 <%= link_to "Назад на главную страницу", dashboard_path %>

@@ -2,16 +2,21 @@
 
 class SpacesController < ApplicationController
   before_action :set_space, only: [:show, :edit, :update]
-  before_action :authorize_creator, only: [:edit, :update]
+
+  def edit
+    # @space уже установлен в set_space\
+    @space_id = @space.id
+  end
+
 
   # Метод для отображения пространства
   def show
-    # @space уже загружен с помощью before_action
+    @spots = @space.spots # Загружаем все места, связанные с этим пространством
   end
 
-  # Метод для редактирования пространства
-  def edit
-    # @space уже загружен с помощью before_action
+  def index
+    @spaces = Space.all # Или добавьте фильтры, если нужно
+    render json: @spaces, status: :ok
   end
 
   # POST /spaces
@@ -30,7 +35,7 @@ class SpacesController < ApplicationController
   def update
     space = Space.find(params[:id])
     if space.update(space_params)
-      redirect_to dashboard_path, notice: "Добро пожаловать!", status: :ok
+      redirect_to dashboard_path, notice: "Добро пожаловать!"#, status: :ok
     else
       render json: { errors: space.errors.full_messages }, status: :unprocessable_entity
     end
