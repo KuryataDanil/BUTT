@@ -8,10 +8,62 @@
       <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Ваши бронирования</h2>
       <% if @bookings.any? %>
         <div class="space-y-4">
-          <% @bookings.each do |booking| %>
-            <div class="bg-white p-4 rounded-lg shadow">
-              <p class="text-gray-800">Бронирование в "<%= booking.space.name %>"</p>
-              <p class="text-sm text-gray-600"><%= booking.start_time %> - <%= booking.end_time %></p>
+          <% @bookings.group_by(&:space_id).each do |space_id, bookings| %>
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+              <% space = bookings.first.space %>
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl text-white font-semibold">
+                  Бронирование в "<%= space.name %>"
+                </h2>
+                <span class="text-sm text-gray-400">
+                  <%= bookings.map(&:spots).flatten.uniq { |spot| spot.id }.count %> мест(а) забронировано
+                </span>
+              </div>
+
+              <!-- Список всех мест пространства -->
+              <div class="space-y-4">
+                <% space.spots.each do |spot| %>
+                  <% booking_spot = bookings.map(&:spots).flatten.find { |s| s.id == spot.id } %>
+                  <div class="flex justify-between items-center bg-gray-700 p-4 rounded-lg">
+                    <div>
+                      <p class="text-sm text-gray-400">Номер места:</p>
+                      <p class="text-lg <%= booking_spot ? 'text-brand-green' : 'text-gray-400' %> font-medium">
+                        <%= spot.num %>
+                      </p>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-400">Статус:</p>
+                      <p class="text-lg <%= booking_spot ? 'text-brand-green' : 'text-gray-400' %> font-medium">
+                        <%= booking_spot ? number_to_currency(spot.price, unit: "₽") : "Свободно" %>
+                      </p>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+
+              <!-- Время бронирования -->
+              <div class="mt-6 border-t border-gray-700 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-400">Начало:</p>
+                  <p class="text-lg text-brand-green font-medium">
+                    <%= l(bookings.map(&:start_time).min, format: :long) %>
+                  </p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">Окончание:</p>
+                  <p class="text-lg text-brand-green font-medium">
+                    <%= l(bookings.map(&:end_time).max, format: :long) %>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Суммарная стоимость -->
+              <div class="mt-6 border-t border-gray-700 pt-4 flex justify-between items-center">
+                <p class="text-lg text-white">Общая стоимость:</p>
+                <p class="text-2xl text-brand-green font-bold">
+                  <%= number_to_currency(bookings.map(&:spots).flatten.sum(&:price), unit: "₽") %>
+                </p>
+              </div>
             </div>
           <% end %>
         </div>

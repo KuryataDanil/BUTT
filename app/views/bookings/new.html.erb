@@ -1,17 +1,41 @@
-<div class="mt-28">
-  <h1>New Booking</h1>
+<section class="min-h-screen w-full bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center px-4">
+  <div class="bg-gray-800 rounded-lg shadow-lg p-8 w-full max-w-2xl">
+    <h1 class="text-3xl text-white font-bold text-center mb-8">New Booking</h1>
 
-  <%= form_with model: @booking, url: space_bookings_path(@space, spot_id: @spot.id), local: true do |form| %>
-    <div>
-      <%= form.label :start_time %>
-      <%= form.datetime_local_field :start_time %>
-    </div>
-    <div>
-      <%= form.label :end_time %>
-      <%= form.datetime_local_field :end_time %>
-    </div>
-    <div>
-      <%= form.submit "Book Space" %>
-    </div>
-  <% end %>
-</div>
+    <%= form_with model: @booking, url: space_bookings_path(@space, spot_id: @spot.id), local: true do |form| %>
+      <div class="mb-6">
+        <%= form.label :start_time, class: "block text-white text-sm font-medium mb-2" %>
+        <%= form.datetime_local_field :start_time, class: "w-full px-4 py-3 rounded-md border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none transition" %>
+      </div>
+
+      <div class="mb-6">
+        <%= form.label :end_time, class: "block text-white text-sm font-medium mb-2" %>
+        <%= form.datetime_local_field :end_time, class: "w-full px-4 py-3 rounded-md border border-gray-300 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none transition" %>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:justify-between items-center gap-4 mt-4">
+        <%= form.submit "Book Space", class: "w-full sm:w-auto px-8 py-4 bg-brand-green text-gray-900 font-bold rounded-lg hover:scale-105 transition-transform" %>
+        <%= link_to "Cancel", space_path(@space), class: "w-full sm:w-auto px-8 py-4 border border-brand-green text-brand-green font-semibold rounded-lg hover:scale-105 transition-transform" %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+
+<!--<div class="mt-28">-->
+<!--  <h1>New Booking</h1>-->
+
+  <%#= form_with model: @booking, url: space_bookings_path(@space, spot_id: @spot.id), local: true do |form| %>
+<!--    <div>-->
+      <%#= form.label :start_time %>
+      <%#= form.datetime_local_field :start_time %>
+<!--    </div>-->
+<!--    <div>-->
+      <%#= form.label :end_time %>
+      <%#= form.datetime_local_field :end_time %>
+<!--    </div>-->
+<!--    <div>-->
+      <%#= form.submit "Book Space" %>
+<!--    </div>-->
+  <%# end %>
+<!--</div>-->
