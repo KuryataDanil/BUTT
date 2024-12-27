@@ -6,8 +6,8 @@
         <p>Hello, <%= current_user.name %>!</p>
         <%#= link_to "View Spaces", spaces_path, class: "text-white hover:text-brand-green transition-colors" %>
         <%#= link_to "Your Bookings", bookings_path, class: "text-white hover:text-brand-green transition-colors" %>
-        <%= link_to "Profile", dashboard_path, class: "text-white hover:text-brand-green transition-colors" %>
-        <%= link_to "Logout", logout_path, method: :get, class: "text-white hover:text-brand-green transition-colors" %>
+        <%= link_to "Профиль", dashboard_path, class: "text-white hover:text-brand-green transition-colors" %>
+        <%= link_to "Выйти", logout_path, method: :get, class: "text-white hover:text-brand-green transition-colors" %>
       <% else %>
         <%= link_to "Регистрация", new_user_path, class: "text-white hover:text-brand-green transition-colors" %>
         <%= link_to "Войти", login_path, class: "text-white hover:text-brand-green transition-colors" %>
